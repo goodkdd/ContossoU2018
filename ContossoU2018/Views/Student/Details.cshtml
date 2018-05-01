@@ -8,12 +8,13 @@
     <h2>Student Details: @Model.FullName</h2>
 
     <div>
-        
+
         <hr />
 
         <div class="row">
             <div class="col-md my-2">
-                <img class="img-fluid" src="http://placehold.it/200x200" alt="Student" />
+                @*<img class="img-fluid" src="http://placehold.it/200x200" alt="Student" />*@
+                <img class="img-fluid" src="~/images/students/@(Model.ID).jpg" alt="@Model.FullName" />
             </div>
             <div class="col-md-8">
                 <dl class="row border">
@@ -70,8 +71,47 @@
         </div>
 
     </div>
+
+    @* Enrollment data *@
+
+    <div class="my-3">
+        <h4>Student Courses</h4>
+        @if (Model.Enrollments.Count != 0)// make sure we have enrollments for this student
+        {
+            <table class="table table-bordered">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>Course Title</th>
+                        <th>Grade</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @*Loop once for each student enrollment*@
+                    @foreach(var item in Model.Enrollments)
+                    {
+                        <tr>
+                            <td>@Html.DisplayFor(e => item.Course.Title)</td>
+                            <td>@Html.DisplayFor(e=>item.Grade)</td>
+                        </tr>
+
+                    }
+
+                </tbody>
+
+            </table>
+        }
+        else
+        {
+            @*//No Enrollments - show alert*@
+            <div class="alert alert-warning" role="alert">
+                This student is not enrolled in any courses yet!
+            </div>
+
+        }
+    </div>
+
     <div>
         <a asp-action="Edit" asp-route-id="@Model.ID">Edit</a> |
         <a asp-action="Index">Back to List</a>
     </div>
-</div
+</div>
