@@ -33,6 +33,11 @@ namespace ContossoU2018
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
+            //mwilliams: Add School Data Services
+            services.AddDbContext<SchoolContext>(options =>
+                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            //end mwilliams: 
+
             // Add application services.
             services.AddTransient<IEmailSender, EmailSender>();
 
@@ -54,6 +59,9 @@ namespace ContossoU2018
             }
 
             app.UseStaticFiles();
+
+            //mwilliams: customer error pages
+            app.UseStatusCodePagesWithReExecute("/Error/{0}");
 
             app.UseAuthentication();
 
